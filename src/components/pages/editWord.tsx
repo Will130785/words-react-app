@@ -1,15 +1,18 @@
 import { useEffect, useState } from 'react'
-import { useParams } from '@tanstack/react-router'
+import { useParams, useNavigate } from '@tanstack/react-router'
 import type { IWord } from '../../types'
 import { getWord } from '../../services'
 import { useForm } from '../../hooks/useForm'
 import { editWord } from '../../services'
 import TextInput from '../global/inputs/textInput'
 import StandardButton from '../global/buttons/standardButton'
+import StandardAlert from '../global/alerts/standardAlert'
 
 const EditWord = () => {
   const [word, setWord] = useState<IWord | null>(null)
+  const [showAlert, setShowAlert] = useState(false)
   const { id } = useParams({ from: '/edit-word/$id' })
+  const navigate = useNavigate()
   const { handleInput, formValues, setFormValues } = useForm({
     english: '',
     italian: '',
@@ -17,7 +20,6 @@ const EditWord = () => {
 
   const handleGetWord = async () => {
     const res = (await getWord(id)) as unknown as { word: IWord }
-    console.log(res)
     if (!res) {
       return
     }
@@ -25,15 +27,20 @@ const EditWord = () => {
   }
 
   const handleSubmit = async () => {
+    setShowAlert(false)
+    if (!formValues.english || !formValues.italian) {
+      setShowAlert(true)
+      return
+    }
     const res = await editWord(
       id,
       formValues as { english: string; italian: string }
     )
     if (!res) {
-      console.log('FAIL')
+      setShowAlert(true)
       return
     }
-    console.log('SUCCESS')
+    navigate({ to: '/view-words' })
     return
   }
 
@@ -54,31 +61,36 @@ const EditWord = () => {
         <h1>Edit Word</h1>
       </div>
       {word && (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            handleSubmit()
-          }}
-        >
-          <TextInput
-            id="english"
-            name="english"
-            onChange={(e) => handleInput(e.target.value, 'english')}
-            value={formValues['english']}
-            placeholder="English Word"
-          />
-          <TextInput
-            id="italian"
-            name="italian"
-            onChange={(e) => handleInput(e.target.value, 'italian')}
-            value={formValues['italian']}
-            placeholder="Italian Word"
-          />
-          <div>
-            <StandardButton text="Edit Word" type="submit" />
-          </div>
-        </form>
+        <>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault()
+              e.stopPropagation()
+              handleSubmit()
+            }}
+          >
+            <TextInput
+              id="english"
+              name="english"
+              onChange={(e) => handleInput(e.target.value, 'english')}
+              value={formValues['english']}
+              placeholder="English Word"
+            />
+            <TextInput
+              id="italian"
+              name="italian"
+              onChange={(e) => handleInput(e.target.value, 'italian')}
+              value={formValues['italian']}
+              placeholder="Italian Word"
+            />
+            <div>
+              <StandardButton text="Edit Word" type="submit" />
+            </div>
+          </form>
+          {showAlert && (
+            <StandardAlert text="Error adding word, please ensure you have entered both an English and Italian version of the word" />
+          )}
+        </>
       )}
     </div>
   )

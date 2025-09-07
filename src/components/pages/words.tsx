@@ -16,7 +16,6 @@ const Words = () => {
     if (!res) {
       return
     }
-    console.log(res.words)
     setWords(res.words)
   }
 
