@@ -1,4 +1,3 @@
-import { Link } from '@tanstack/react-router'
 import { X } from 'lucide-react'
 import CustomLink from './link'
 
