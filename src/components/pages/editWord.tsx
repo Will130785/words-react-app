@@ -4,6 +4,8 @@ import type { IWord } from '../../types'
 import { getWord } from '../../services'
 import { useForm } from '../../hooks/useForm'
 import { editWord } from '../../services'
+import TextInput from '../global/inputs/textInput'
+import StandardButton from '../global/buttons/standardButton'
 
 const EditWord = () => {
   const [word, setWord] = useState<IWord | null>(null)
@@ -59,28 +61,22 @@ const EditWord = () => {
             handleSubmit()
           }}
         >
+          <TextInput
+            id="english"
+            name="english"
+            onChange={(e) => handleInput(e.target.value, 'english')}
+            value={formValues['english']}
+            placeholder="English Word"
+          />
+          <TextInput
+            id="italian"
+            name="italian"
+            onChange={(e) => handleInput(e.target.value, 'italian')}
+            value={formValues['italian']}
+            placeholder="Italian Word"
+          />
           <div>
-            <input
-              id="english"
-              name="english"
-              onChange={(e) => handleInput(e.target.value, 'english')}
-              value={formValues['english']}
-            />
-            <label>English Word</label>
-          </div>
-          <div>
-            <input
-              id="italian"
-              name="italian"
-              onChange={(e) => handleInput(e.target.value, 'italian')}
-              value={formValues['italian']}
-            />
-            <label>Italian Word</label>
-          </div>
-          <div>
-            <button className="cursor-pointer" type="submit">
-              Edit Word
-            </button>
+            <StandardButton text="Edit Word" type="submit" />
           </div>
         </form>
       )}
