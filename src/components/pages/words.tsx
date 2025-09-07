@@ -3,7 +3,7 @@ import { getWords } from '../../services'
 import type { IWord } from '../../types'
 import { LoaderCircle } from 'lucide-react'
 import ItalyFlag from '../global/svg/italyFlag'
-import EnglandFlag from '../global/svg/englandFlag'
+import BritishFlag from '../global/svg/britishFlag'
 import StandardButton from '../global/buttons/standardButton'
 
 const Words = () => {
@@ -56,7 +56,7 @@ const Words = () => {
                 className="cursor-pointer"
                 onClick={() => handleToggleLanguage()}
               >
-                <EnglandFlag />
+                <BritishFlag />
               </button>
             ) : (
               <button

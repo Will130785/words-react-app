@@ -12,9 +12,11 @@
   "dependencies": {
     "@tailwindcss/vite": "^4.1.13",
     "@tanstack/react-router": "^1.131.35",
+    "@types/react-world-flags": "^1.6.0",
     "lucide-react": "^0.542.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-world-flags": "^1.6.0",
     "tailwindcss": "^4.1.13",
     "uuid": "^12.0.0"
   },
